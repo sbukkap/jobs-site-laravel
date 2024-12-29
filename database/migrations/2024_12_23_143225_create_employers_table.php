@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('employers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class); // an employer BELONGS TO a user. A user signs in, IS an employer, then posts a job. So we make a foreign key to Users table
             $table->string('name');
             $table->string('logo');
             $table->timestamps();
