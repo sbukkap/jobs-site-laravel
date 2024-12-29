@@ -1,12 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\RegisteredUserController;
+use \App\Http\Controllers\SessionController;
 
 Route::get('/', [\App\Http\Controllers\JobController::class, 'index']);
-Route::get('/register', [\App\Http\Controllers\RegisteredUserController::class, 'create']);
-Route::post('/register', [\App\Http\Controllers\RegisteredUserController::class, 'store']);
 
-Route::get('/login', [\App\Http\Controllers\SessionController::class, 'create']);
-Route::post('/login', [\App\Http\Controllers\SessionController::class, 'store']);
+Route::middleware('guest')->group(function () {
+    Route::get('/register', [RegisteredUserController::class, 'create']);
+    Route::post('/register', [RegisteredUserController::class, 'store']);
 
-Route::delete('/logout', [\App\Http\Controllers\SessionController::class, 'destroy']);
+    Route::get('/login', [SessionController::class, 'create']);
+    Route::post('/login', [SessionController::class, 'store']);
+}); 
+
+Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('auth');
